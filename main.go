@@ -54,7 +54,6 @@ func main() {
 				firstNames = append(firstNames, names[0])
 			}
 				
-			
 			fmt.Printf("These are all our bookings : %v\n", firstNames)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 		} else {
