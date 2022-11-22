@@ -7,10 +7,11 @@ import (
 
 func main() {
 	var conferenceName = "Go Conference"
-	// const conferenceTickets uint = 50
+	const conferenceTickets uint = 50
 	var remainingTickets uint = 50
 
 	fmt.Printf("Welcome to %v booking application.\n", conferenceName)
+	fmt.Printf("We have %v remaining ticket of %v total ticket\n", remainingTickets, conferenceTickets)
 
 	var bookings []string
 
@@ -23,42 +24,53 @@ func main() {
 		fmt.Printf("Enter your firstName : ")
 		fmt.Scan(&firstName)
 
+		for len(firstName) < 2 {
+			fmt.Println("Your first name input is too short")
+			fmt.Printf("Enter your firstName : ")
+			fmt.Scan(&firstName)
+		}
+
 		fmt.Printf("Enter your lastName : ")
 		fmt.Scan(&lastName)
 
-		fmt.Printf("Enter your email : ")
+		for len(lastName) < 2 {
+			fmt.Println("Your last name input is too short")
+			fmt.Printf("Enter your lastName : ")
+			fmt.Scan(&lastName)
+		}
+
+		fmt.Printf("Enter your email address : ")
 		fmt.Scan(&email)
+
+		for !strings.Contains(email, "@") {
+			fmt.Println("Your email address format is wrong (please include : @")
+			fmt.Printf("Enter your email address : ")
+			fmt.Scan(&email)
+		}
 
 		fmt.Printf("Enter amount of ticket : ")
 		fmt.Scan(&userTickets)
 
-		if userTickets > remainingTickets {
+		for userTickets > remainingTickets {
 			fmt.Printf("We have only %v remaining, so you can't book %v tikects\n", remainingTickets, userTickets)
-			continue
+			fmt.Printf("Enter amount of ticket : ")
+			fmt.Scan(&userTickets)
 		}
 
-		isValidName := len(firstName) >= 2 && len(lastName) >= 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicketAmount := userTickets > 0 && userTickets <= remainingTickets
-
-		if isValidName && isValidEmail && isValidTicketAmount {
-			remainingTickets = remainingTickets - userTickets
-			bookings = append(bookings, firstName + " " + lastName)
-
-			fmt.Printf("Thank you %v %v for booking %v tickets.\nYou will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
+		remainingTickets = remainingTickets - userTickets
+		bookings = append(bookings, firstName + " " + lastName)
+			
+		fmt.Printf("Thank you %v %v for booking %v tickets.\nYou will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 				
-			firstNames := []string{}
+		firstNames := []string{}
 
-			for _, booking := range bookings {
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
-				
-			fmt.Printf("These are all our bookings : %v\n", firstNames)
-			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-		} else {
-			fmt.Println("Invalid Input")
+		for _, booking := range bookings {
+			var names = strings.Fields(booking)
+			firstNames = append(firstNames, names[0])
 		}
+				
+		fmt.Printf("These are all our bookings : %v\n", firstNames)
+		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
 		if remainingTickets == 0 {
 			fmt.Println("Tickets are fully booked. See you next year.")
