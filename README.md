@@ -1,1 +1,1 @@
-# go-simple-app
+# Simple Booking App
